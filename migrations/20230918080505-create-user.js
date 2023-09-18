@@ -36,7 +36,7 @@ module.exports = {
       gender: {
         type: Sequelize.STRING
       },
-      school: {
+      job: {
         type: Sequelize.STRING
       },
       location: {
