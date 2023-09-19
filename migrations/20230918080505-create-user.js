@@ -22,7 +22,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       avatar: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'https://i.imgur.com/jUZg5Mm.png'
       },
       introduction: {
         type: Sequelize.STRING
@@ -43,7 +44,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       role: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'user'
       },
       created_at: {
         allowNull: false,
