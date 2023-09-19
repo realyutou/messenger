@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Announcement.init({
+    title: DataTypes.STRING,
     content: DataTypes.STRING,
     user_id: DataTypes.INTEGER
   }, {

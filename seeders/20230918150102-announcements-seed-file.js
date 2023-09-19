@@ -8,6 +8,7 @@ module.exports = {
       { type: queryInterface.sequelize.QueryTypes.SELECT }
     )
     return await queryInterface.bulkInsert('Announcements', [{
+      title: '歡迎加入 HELLO! 即時通。',
       content: '歡迎加入 HELLO! 即時通。',
       user_id: userId[0].id,
       created_at: new Date(),
