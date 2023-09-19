@@ -5,6 +5,9 @@ const userController = require('../controllers/user-controller')
 
 const router = express.Router()
 
+// Signup page
+router.get('/signup', userController.signUpPage)
+
 // Signin page
 router.get('/signin', userController.signInPage)
 
