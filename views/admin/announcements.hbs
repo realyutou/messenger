@@ -1,0 +1,21 @@
+<h1 class="mb-3">HELLO! 即時通後台</h1>
+
+<div class="mb-3">
+  <a href="/admin/announcements/new" class="btn btn-primary"><i class="fa-solid fa-wand-magic-sparkles" style="color: #ffffff;"></i>發布新公告</a>
+</div>
+
+<div class="list-group">
+  {{#if announcements}}
+    {{#each announcements}}
+      <div class="d-flex align-items-center">
+        <a href="/announcements/{{ this.id }}" class="list-group-item list-group-item-action">【{{date this.createdAt}}】{{ this.title }}</a>
+        {{#if ../user.isAdmin}}
+          <a href="/admin/announcements/{{ this.id }}/edit" class="btn btn-success mx-1"><i class="fa-solid fa-pen" style="color: #ffffff;"></i></a>
+          <form action="/admin/announcements/{{ this.id }}" method="POST"><button class="btn btn-danger" type="submit"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></button></form>
+        {{/if}}
+      </div>
+    {{/each}}
+  {{else}}
+  <h1>暫無公告</h1>
+  {{/if}}
+</div>
