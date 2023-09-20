@@ -3,11 +3,11 @@ const bcrypt = require('bcryptjs')
 
 const { User } = require('../models')
 
-userService = {
+const userService = {
   signUp: async (req, cb) => {
     try {
       const { name, email, account, password, passwordCheck } = req.body
-      if (!name || !email || !account || !password ||! passwordCheck) throw new Error('所有欄位都是必填！')
+      if (!name || !email || !account || !password || !passwordCheck) throw new Error('所有欄位都是必填！')
       if (name.length > 30) throw new Error('請設定 30 字以內的姓名！')
       if (account.length > 20) throw new Error('請設定 20 字以內的帳號！')
       if (password !== passwordCheck) throw new Error('密碼與確認密碼不符合！')

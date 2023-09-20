@@ -4,6 +4,7 @@ const { engine } = require('express-handlebars')
 const flash = require('connect-flash')
 const session = require('express-session')
 
+const passport = require('./config/passport')
 const routes = require('./routes')
 
 const port = 3000
@@ -20,6 +21,10 @@ app.use(express.urlencoded({ extended: true }))
 
 // Set express-session
 app.use(session({ secret: sessionSecret, resave: false, saveUninitialized: false }))
+
+// Set passport
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Set connect-flash
 app.use(flash())
