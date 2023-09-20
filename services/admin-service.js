@@ -1,5 +1,6 @@
 const { Announcement } = require('../models')
 const { getOffset, getPagination } = require('../helpers/pagination-helper')
+const { getUser } = require('../helpers/auth-helper')
 
 const adminServices = {
   getAnnouncements: async (req, cb) => {
@@ -18,6 +19,21 @@ const adminServices = {
         announcements: announcements.rows,
         pagination: getPagination(limit, page, announcements.count)
       })
+    } catch (err) {
+      return cb(err)
+    }
+  },
+  postAnnouncement: async (req, cb) => {
+    try {
+      const userId = getUser(req)?.id
+      const { title, content } = req.body
+      if (!title || !content) throw new Error('所有欄位都是必填！')
+      const newAnnouncement = await Announcement.create({
+        title,
+        content,
+        userId
+      })
+      return cb(null, { announcement: newAnnouncement })
     } catch (err) {
       return cb(err)
     }
