@@ -3,6 +3,7 @@ const express = require('express')
 const { engine } = require('express-handlebars')
 const flash = require('connect-flash')
 const session = require('express-session')
+const methodOverride = require('method-override')
 
 const passport = require('./config/passport')
 const routes = require('./routes')
@@ -20,6 +21,9 @@ app.set('views', './views')
 
 // Set body-parser
 app.use(express.urlencoded({ extended: true }))
+
+// Set method-override
+app.use(methodOverride('_method'))
 
 // Set express-session
 app.use(session({ secret: sessionSecret, resave: false, saveUninitialized: false }))

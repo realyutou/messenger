@@ -33,7 +33,21 @@ const adminServices = {
         content,
         userId
       })
-      return cb(null, { announcement: newAnnouncement })
+      return cb(null, { announcement: newAnnouncement.toJSON() })
+    } catch (err) {
+      return cb(err)
+    }
+  },
+  editAnnouncement: async (req, cb) => {
+    try {
+      const announcementId = req.params.id
+      const announcement = await Announcement.findByPk(announcementId, { raw: true })
+      if (!announcement) {
+        const err = new Error('該公告不存在，請重新確認！')
+        err.status = 404
+        throw err
+      }
+      return cb(null, { announcement })
     } catch (err) {
       return cb(err)
     }

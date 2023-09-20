@@ -23,7 +23,7 @@ const userService = {
         account,
         password: hash
       })
-      return cb(null, { user: newUser })
+      return cb(null, { user: newUser.toJSON() })
     } catch (err) {
       return cb(err)
     }
