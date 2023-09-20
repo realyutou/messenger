@@ -68,7 +68,22 @@ const adminServices = {
         content: content || announcement.content,
         userId
       })
-      return cb(null, { announcement: updatedAnnouncement })
+      return cb(null, { announcement: updatedAnnouncement.toJSON() })
+    } catch (err) {
+      return cb(err)
+    }
+  },
+  deleteAnnouncement: async (req, cb) => {
+    try {
+      const announcementId = req.params.id
+      const announcement = await Announcement.findByPk(announcementId)
+      if (!announcement) {
+        const err = new Error('該公告不存在，請重新確認！')
+        err.status = 404
+        throw err
+      }
+      const deletedAnnouncement = await announcement.destroy()
+      return cb(null, { announcement: deletedAnnouncement.toJSON() })
     } catch (err) {
       return cb(err)
     }

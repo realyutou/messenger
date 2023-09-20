@@ -32,6 +32,13 @@ const adminController = {
       req.flash('success_msg', '公告更新成功！')
       return res.redirect('/admin/announcements')
     })
+  },
+  deleteAnnouncement: (req, res, next) => {
+    adminService.deleteAnnouncement(req, (err, data) => {
+      if (err) return next(err)
+      req.flash('success_msg', '成功刪除該則公告！')
+      return res.redirect('/admin/announcements')
+    })
   }
 }
 

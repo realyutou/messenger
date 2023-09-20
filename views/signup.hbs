@@ -21,7 +21,7 @@
     <input type="password" class="form-control" id="passwordCheck" name="passwordCheck" placeholder="請再次輸入密碼。" maxlength="20" required>
   </div>
   <div class="d-grid mb-3">
-    <button type="submit" class="btn btn-primary">送出</button>
+    <button type="submit" class="btn btn-primary" onclick="return confirm('送出前請確定內容無誤，確定要送出嗎？')">送出</button>
   </div>
   <div class="text-center mb-3">
     已有帳號？<a href="/signin">登入</a>
