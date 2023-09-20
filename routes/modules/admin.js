@@ -6,6 +6,7 @@ const adminController = require('../../controllers/admin-controller')
 const router = express.Router()
 
 // Announcements
+router.get('/announcements/new', adminController.newAnnouncement)
 router.get('/announcements', adminController.getAnnouncements)
 
 router.get('/', (req, res) => res.redirect('/admin/announcements'))

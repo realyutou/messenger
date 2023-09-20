@@ -10,6 +10,9 @@ const adminController = {
           pagination: data.pagination
         })
     })
+  },
+  newAnnouncement: (req, res) => {
+    return res.render('admin/announcement-form')
   }
 }
 
