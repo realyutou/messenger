@@ -17,7 +17,7 @@ module.exports = {
       gender: '女',
       job: faker.person.jobTitle(),
       location: faker.location.city(),
-      role: 'admin',
+      is_admin: true,
       created_at: new Date(),
       updated_at: new Date()
     }]
@@ -35,7 +35,7 @@ module.exports = {
         gender: '男',
         job: faker.person.jobTitle(),
         location: faker.location.city(),
-        role: 'user',
+        is_admin: false,
         created_at: new Date(),
         updated_at: new Date()
       }

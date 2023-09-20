@@ -43,9 +43,9 @@ module.exports = {
       location: {
         type: Sequelize.STRING
       },
-      role: {
-        type: Sequelize.STRING,
-        defaultValue: 'user'
+      is_admin: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       created_at: {
         allowNull: false,

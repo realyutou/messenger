@@ -4,6 +4,7 @@ const express = require('express')
 const passport = require('../config/passport')
 const userController = require('../controllers/user-controller')
 const { generalErrorHandler } = require('../middleware/error-handler')
+const { authenticatedUser, authenticatedAdmin } = require('../middleware/auth')
 
 const router = express.Router()
 
@@ -17,7 +18,7 @@ router.post('/signin', passport.authenticate('local', { failureRedirect: '/signi
 router.get('/logout', userController.logout)
 
 // Homepage
-router.get('/', (req, res) => {
+router.get('/', authenticatedUser, (req, res) => {
   res.render('main')
 })
 

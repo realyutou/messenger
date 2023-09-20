@@ -4,5 +4,20 @@
       <i class="fa-solid fa-face-laugh" style="color: #f5b72f;"></i>
       HELLO! 即時通
     </a>
+    {{#if user}}
+    <ul class="nav">
+      <li class="nav-item">
+        <a class="nav-link disabled">Hi, {{ user.name }}</a>
+      </li>
+      {{#if user.isAdmin}}
+      <li class="nav-item">
+        <a class="nav-link" href="#">Admin後台</a>
+      </li>
+      {{/if}}
+      <li class="nav-item">
+        <a class="nav-link btn text-white bg-danger" href="/logout">登出</a>
+      </li>
+    </ul>
+    {{/if}}
   </div>
 </nav>
