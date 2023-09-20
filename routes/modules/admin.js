@@ -9,6 +9,7 @@ const router = express.Router()
 router.get('/announcements/new', adminController.newAnnouncement)
 router.post('/announcements', adminController.postAnnouncement)
 router.get('/announcements/:id/edit', adminController.editAnnouncement)
+router.put('/announcements/:id', adminController.putAnnouncement)
 router.get('/announcements', adminController.getAnnouncements)
 
 router.get('/', (req, res) => res.redirect('/admin/announcements'))

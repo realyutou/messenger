@@ -51,6 +51,27 @@ const adminServices = {
     } catch (err) {
       return cb(err)
     }
+  },
+  putAnnouncement: async (req, cb) => {
+    try {
+      const announcementId = req.params.id
+      const userId = getUser(req)?.id
+      const { title, content } = req.body
+      const announcement = await Announcement.findByPk(announcementId)
+      if (!announcement) {
+        const err = new Error('該公告不存在，請重新確認！')
+        err.status = 404
+        throw err
+      }
+      const updatedAnnouncement = await announcement.update({
+        title: title || announcement.title,
+        content: content || announcement.content,
+        userId
+      })
+      return cb(null, { announcement: updatedAnnouncement })
+    } catch (err) {
+      return cb(err)
+    }
   }
 }
 
