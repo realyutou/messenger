@@ -1,8 +1,9 @@
 const adminService = require('../services/admin-service')
+const announcementService = require('../services/announcement-service')
 
 const adminController = {
   getAnnouncements: (req, res, next) => {
-    adminService.getAnnouncements(req, (err, data) => {
+    announcementService.getAnnouncements(req, (err, data) => {
       err
         ? next(err)
         : res.render('admin/announcements', {
