@@ -1,5 +1,8 @@
 <h1 class="mb-3 text-center">HELLO! 即時通後台</h1>
-
+<form action="/admin/announcements" class="d-flex mb-3">
+  <input class="form-control me-2" name="keyword" type="text" placeholder="依標題搜尋" value="{{ keyword }}">
+  <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
 <div class="row">
   {{> admin-left-sidebar route='announcements'}}
   <div class="col-sm-10">
@@ -33,21 +36,21 @@
     <nav class="mt-3" aria-label="page navigation">
       <ul class="pagination justify-content-center">
         <li class="page-item {{#ifCond pagination.currentPage 1}}disabled{{/ifCond}}">
-          <a class="page-link" href="/admin/announcements?page={{pagination.prev}}" aria-label="Previous">
+          <a class="page-link" href="/admin/announcements?page={{ pagination.prev }}&keyword={{ keyword }}" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
         {{#each pagination.pages}}
           {{#ifCond this ../pagination.currentPage}}
-            <li class="page-item active"><a class="page-link" href="#">{{this}}</a></li>
+            <li class="page-item active"><a class="page-link" href="#">{{ this }}</a></li>
           {{else}}
             <li class="page-item">
-              <a class="page-link" href="/admin/announcements?page={{this}}">{{this}}</a>
+              <a class="page-link" href="/admin/announcements?page={{ this }}&keyword={{ ../keyword }}">{{ this }}</a>
             </li>
           {{/ifCond}}
         {{/each}}
         <li class="page-item {{#ifCond pagination.currentPage pagination.totalPage}}disabled{{/ifCond}}">
-          <a class="page-link" href="/admin/announcements?page={{pagination.next}}" aria-label="Next">
+          <a class="page-link" href="/admin/announcements?page={{ pagination.next }}&keyword={{ keyword }}" aria-label="Next">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>

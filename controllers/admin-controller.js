@@ -7,7 +7,8 @@ const adminController = {
         ? next(err)
         : res.render('admin/announcements', {
           announcements: data.announcements,
-          pagination: data.pagination
+          pagination: data.pagination,
+          keyword: data.keyword
         })
     })
   },

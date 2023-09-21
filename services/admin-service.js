@@ -11,15 +11,28 @@ const adminServices = {
       const page = Number(req.query.page) || 1
       const limit = DEFAULT_LIMIT
       const offset = getOffset(limit, page)
-      const announcements = await Announcement.findAndCountAll({
-        order: [['createdAt', 'DESC']],
-        limit,
-        offset,
-        raw: true
-      })
+      const { keyword } = req.query || ''
+      let announcements
+      if (keyword) {
+        announcements = await Announcement.findAndCountAll({
+          where: { title: { [Op.substring]: keyword } },
+          order: [['createdAt', 'DESC']],
+          limit,
+          offset,
+          raw: true
+        })
+      } else {
+        announcements = await Announcement.findAndCountAll({
+          order: [['createdAt', 'DESC']],
+          limit,
+          offset,
+          raw: true
+        })
+      }
       return cb(null, {
         announcements: announcements.rows,
-        pagination: getPagination(limit, page, announcements.count)
+        pagination: getPagination(limit, page, announcements.count),
+        keyword
       })
     } catch (err) {
       return cb(err)
