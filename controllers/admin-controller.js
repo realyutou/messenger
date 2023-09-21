@@ -39,6 +39,17 @@ const adminController = {
       req.flash('success_msg', '成功刪除該則公告！')
       return res.redirect('/admin/announcements')
     })
+  },
+  getUsers: (req, res, next) => {
+    adminService.getUsers(req, (err, data) => {
+      err
+        ? next(err)
+        : res.render('admin/users', {
+          users: data.users,
+          pagination: data.pagination,
+          keyword: data.keyword
+        })
+    })
   }
 }
 

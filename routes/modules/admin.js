@@ -13,6 +13,9 @@ router.put('/announcements/:id', adminController.putAnnouncement)
 router.delete('/announcements/:id', adminController.deleteAnnouncement)
 router.get('/announcements', adminController.getAnnouncements)
 
+// Users
+router.get('/users', adminController.getUsers)
+
 router.get('/', (req, res) => res.redirect('/admin/announcements'))
 
 module.exports = router

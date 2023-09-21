@@ -1,4 +1,6 @@
-const { Announcement } = require('../models')
+const { Op } = require('sequelize')
+
+const { Announcement, User } = require('../models')
 const { getOffset, getPagination } = require('../helpers/pagination-helper')
 const { getUser } = require('../helpers/auth-helper')
 
@@ -84,6 +86,39 @@ const adminServices = {
       }
       const deletedAnnouncement = await announcement.destroy()
       return cb(null, { announcement: deletedAnnouncement.toJSON() })
+    } catch (err) {
+      return cb(err)
+    }
+  },
+  getUsers: async (req, cb) => {
+    try {
+      const DEFAULT_LIMIT = 10
+      const limit = DEFAULT_LIMIT
+      const page = Number(req.query.page) || 1
+      const offset = getOffset(limit, page)
+      const { keyword } = req.query || ''
+      let users
+      if (keyword) {
+        users = await User.findAndCountAll({
+          where: { name: { [Op.substring]: keyword } },
+          order: [['isAdmin', 'DESC'], ['email', 'ASC']],
+          limit,
+          offset,
+          raw: true
+        })
+      } else {
+        users = await User.findAndCountAll({
+          order: [['isAdmin', 'DESC'], ['email', 'ASC']],
+          limit,
+          offset,
+          raw: true
+        })
+      }
+      return cb(null, {
+        users: users.rows,
+        pagination: getPagination(limit, page, users.count),
+        keyword
+      })
     } catch (err) {
       return cb(err)
     }
