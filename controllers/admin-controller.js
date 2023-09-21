@@ -32,7 +32,7 @@ const adminController = {
     adminService.putAnnouncement(req, (err, data) => {
       if (err) return next(err)
       req.flash('success_msg', '公告更新成功！')
-      return res.redirect('/admin/announcements')
+      return res.redirect(`/announcements/${data.announcement.id}`)
     })
   },
   deleteAnnouncement: (req, res, next) => {

@@ -11,6 +11,11 @@ const announcementController = {
           keyword: data.keyword
         })
     })
+  },
+  getAnnouncement: (req, res, next) => {
+    announcementService.getAnnouncement(req, (err, data) => {
+      err ? next(err) : res.render('announcement', { announcement: data.announcement })
+    })
   }
 }
 

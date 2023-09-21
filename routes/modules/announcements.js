@@ -4,6 +4,9 @@ const announcementController = require('../../controllers/announcement-controlle
 
 const router = express.Router()
 
+// 查看特定公告
+router.get('/:id', announcementController.getAnnouncement)
+
 // 查看所有公告
 router.get('/', announcementController.getAnnouncements)
 

@@ -1,6 +1,6 @@
 const { Op } = require('sequelize')
 
-const { Announcement } = require('../models')
+const { Announcement, User } = require('../models')
 const { getOffset, getPagination } = require('../helpers/pagination-helper')
 
 const announcementService = {
@@ -33,6 +33,24 @@ const announcementService = {
         pagination: getPagination(limit, page, announcements.count),
         keyword
       })
+    } catch (err) {
+      return cb(err)
+    }
+  },
+  getAnnouncement: async (req, cb) => {
+    try {
+      const announcementId = req.params.id
+      const announcement = await Announcement.findByPk(announcementId, {
+        include: [{ model: User, attributes: { exclude: ['password'] } }],
+        raw: true,
+        nest: true
+      })
+      if (!announcement) {
+        const err = new Error('該公告不存在，請重新確認！')
+        err.status = 404
+        throw err
+      }
+      return cb(null, { announcement })
     } catch (err) {
       return cb(err)
     }
