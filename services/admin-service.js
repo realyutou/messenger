@@ -135,6 +135,31 @@ const adminServices = {
     } catch (err) {
       return cb(err)
     }
+  },
+  patchUser: async (req, cb) => {
+    try {
+      const { account } = req.params
+      if (account === 'root') {
+        const err = new Error('無法變更 root 權限')
+        err.status = 403
+        throw err
+      }
+      const user = await User.findOne({ where: { account } })
+      if (!user) {
+        const err = new Error('使用者不存在！')
+        err.status = 404
+        throw err
+      }
+      let updatedUser
+      if (user.isAdmin) {
+        updatedUser = await user.update({ isAdmin: false })
+      } else {
+        updatedUser = await user.update({ isAdmin: true })
+      }
+      return cb(null, { user: updatedUser.toJSON() })
+    } catch (err) {
+      return cb(err)
+    }
   }
 }
 

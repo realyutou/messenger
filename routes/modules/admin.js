@@ -15,6 +15,7 @@ router.get('/announcements', adminController.getAnnouncements)
 
 // Users
 router.get('/users', adminController.getUsers)
+router.patch('/users/:account', adminController.patchUser)
 
 router.get('/', (req, res) => res.redirect('/admin/announcements'))
 

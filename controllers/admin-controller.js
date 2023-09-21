@@ -51,6 +51,13 @@ const adminController = {
           keyword: data.keyword
         })
     })
+  },
+  patchUser: (req, res, next) => {
+    adminService.patchUser(req, (err, data) => {
+      if (err) return next(err)
+      req.flash('success_msg', '成功變更該使用者權限！')
+      return res.redirect('/admin/users')
+    })
   }
 }
 
