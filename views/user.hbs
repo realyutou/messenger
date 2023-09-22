@@ -1,0 +1,54 @@
+<div class="row">
+  {{> left-sidebar route='users'}}
+  <div class="col-sm-10">
+    <h5>{{> back}}</h5>
+    <div class="card mb-3">
+      <img src="{{ user.avatar }}" class="my-3 rounded mx-auto d-block w-25">
+      <div class="text-center">
+        {{#ifCond user.account hostAccount}}
+          <a href="/users/{{ hostAccount }}/edit" class="btn btn-success"><i class="fa-solid fa-pen" style="color: white;"></i> 編輯個人檔案</a>
+        {{else}}
+          <a href="#" class="btn btn-warning"><i class="fa-solid fa-envelope" style="color: white;"></i> 傳送訊息</a>
+          {{#if user.isAdded}}
+            <a href="#" class="btn btn-danger"><i class="fa-solid fa-xmark" style="color: white;"></i> 從通訊錄中移除</a>
+          {{else}}
+            <a href="#" class="btn btn-outline-danger"><i class="fa-solid fa-plus" style="color: red;"></i> 加到通訊錄</a>
+          {{/if}}
+        {{/ifCond}}
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <h3 class="card-title text-center">
+              {{#if user.isAdmin}}
+                <i class="fa-solid fa-wrench"></i>
+              {{else}}
+                <i class="fa-solid fa-user"></i>
+              {{/if}}
+              {{ user.name }}
+            </h3>
+            <p class="card-text text-center"><small class="text-body-secondary">@{{ user.account }}</small></p>
+            <p class="card-text mb-2">{{ user.introduction }}</p>
+          </li>
+          <li class="list-group-item">
+            性別：{{#if user.gender}}{{ user.gender }}{{else}}<small class="text-body-secondary">未設定</small>{{/if}}
+          </li>
+          <li class="list-group-item">
+            生日：{{#if user.birthday}}{{date user.birthday}}{{else}}<small class="text-body-secondary">未設定</small>{{/if}}
+          </li>
+          <li class="list-group-item">
+            動態消息：{{#if user.text}}{{ user.text }}{{else}}<small class="text-body-secondary">未設定</small>{{/if}}
+          </li>
+          <li class="list-group-item">
+            現居地：{{#if user.location}}{{ user.location }}{{else}}<small class="text-body-secondary">未設定</small>{{/if}}
+          </li>
+          <li class="list-group-item">
+            職業：{{#if user.job}}{{ user.job }}{{else}}<small class="text-body-secondary">未設定</small>{{/if}}
+          </li>
+          <li class="list-group-item">電子信箱：{{ user.email }}</li>
+          <li class="list-group-item text-end"><small class="text-body-secondary">Last updated {{when user.updatedAt}}.</small></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

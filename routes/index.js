@@ -4,6 +4,7 @@ const express = require('express')
 const passport = require('../config/passport')
 const admin = require('./modules/admin')
 const announcements = require('./modules/announcements')
+const users = require('./modules/users')
 const userController = require('../controllers/user-controller')
 const { generalErrorHandler } = require('../middleware/error-handler')
 const { authenticatedUser, authenticatedAdmin } = require('../middleware/auth')
@@ -12,6 +13,7 @@ const router = express.Router()
 
 router.use('/admin', authenticatedAdmin, admin)
 router.use('/announcements', authenticatedUser, announcements)
+router.use('/users', authenticatedUser, users)
 
 // 註冊表單頁面
 router.get('/signup', userController.signUpPage)
@@ -22,7 +24,7 @@ router.post('/signup', userController.signUp)
 // 登入畫面
 router.get('/signin', userController.signInPage)
 
-// 送出登入表單
+// 登入功能
 router.post('/signin', passport.authenticate('local', { failureRedirect: '/signin' }), userController.signIn)
 
 // 登出功能

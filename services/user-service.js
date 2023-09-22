@@ -2,6 +2,7 @@
 const bcrypt = require('bcryptjs')
 
 const { User } = require('../models')
+const { getUser } = require('../helpers/auth-helper')
 
 const userService = {
   signUp: async (req, cb) => {
@@ -24,6 +25,24 @@ const userService = {
         password: hash
       })
       return cb(null, { user: newUser.toJSON() })
+    } catch (err) {
+      return cb(err)
+    }
+  },
+  getUser: async (req, cb) => {
+    try {
+      const host = getUser(req)
+      const guestAccount = req.params.account
+      const user = await User.findOne({
+        where: { account: guestAccount },
+        raw: true
+      })
+      if (!user) {
+        const err = new Error('該使用者不存在！')
+        err.status = 404
+        throw err
+      }
+      return cb(null, { user, hostAccount: host.account })
     } catch (err) {
       return cb(err)
     }

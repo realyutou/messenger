@@ -2,10 +2,12 @@ const { Op } = require('sequelize')
 
 const { Announcement, User } = require('../models')
 const { getOffset, getPagination } = require('../helpers/pagination-helper')
+const { getUser } = require('../helpers/auth-helper')
 
 const announcementService = {
   getAnnouncements: async (req, cb) => {
     try {
+      const host = getUser(req)
       const DEFAULT_LIMIT = 10
       const page = Number(req.query.page) || 1
       const limit = DEFAULT_LIMIT
@@ -31,7 +33,8 @@ const announcementService = {
       return cb(null, {
         announcements: announcements.rows,
         pagination: getPagination(limit, page, announcements.count),
-        keyword
+        keyword,
+        hostAccount: host.account
       })
     } catch (err) {
       return cb(err)
@@ -39,6 +42,7 @@ const announcementService = {
   },
   getAnnouncement: async (req, cb) => {
     try {
+      const host = getUser(req)
       const announcementId = req.params.id
       const announcement = await Announcement.findByPk(announcementId, {
         include: [{ model: User, attributes: { exclude: ['password'] } }],
@@ -50,7 +54,7 @@ const announcementService = {
         err.status = 404
         throw err
       }
-      return cb(null, { announcement })
+      return cb(null, { announcement, hostAccount: host.account })
     } catch (err) {
       return cb(err)
     }

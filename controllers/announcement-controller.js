@@ -8,13 +8,14 @@ const announcementController = {
         : res.render('announcements', {
           announcements: data.announcements,
           pagination: data.pagination,
-          keyword: data.keyword
+          keyword: data.keyword,
+          hostAccount: data.hostAccount
         })
     })
   },
   getAnnouncement: (req, res, next) => {
     announcementService.getAnnouncement(req, (err, data) => {
-      err ? next(err) : res.render('announcement', { announcement: data.announcement })
+      err ? next(err) : res.render('announcement', { announcement: data.announcement, hostAccount: data.hostAccount })
     })
   }
 }

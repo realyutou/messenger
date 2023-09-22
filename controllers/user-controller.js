@@ -23,6 +23,11 @@ const userController = {
       req.flash('success_msg', '登出成功！')
       return res.redirect('/signin')
     })
+  },
+  getUser: (req, res, next) => {
+    userService.getUser(req, (err, data) => {
+      err ? next(err) : res.render('user', { user: data.user, hostAccount: data.hostAccount })
+    })
   }
 }
 
