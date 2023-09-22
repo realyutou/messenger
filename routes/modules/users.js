@@ -4,6 +4,10 @@ const userController = require('../../controllers/user-controller')
 
 const router = express.Router()
 
+// 搜尋使用者
+router.get('/search', userController.searchUser)
+
+// User profile
 router.get('/:account', userController.getUser)
 
 module.exports = router

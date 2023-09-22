@@ -1,12 +1,11 @@
-<div class="d-grid mb-5 w-75 mx-auto">
-  <a href="/announcements" class="text-decoration-none btn btn-outline-dark">
-    <h1 class="text-center"><i class="fa-solid fa-bullhorn"></i> HELLO! 即時通公告欄</h1>
-  </a>
-</div>
-
 <div class="row">
   {{> left-sidebar route='announcements'}}
   <div class="col-sm-10">
+    <div class="d-grid mb-3">
+      <a href="/announcements" class="text-decoration-none btn btn-outline-dark">
+        <h1 class="text-center"><i class="fa-solid fa-bullhorn"></i> HELLO! 即時通公告欄</h1>
+      </a>
+    </div>
     <form action="/announcements" class="d-flex mb-3">
       <input class="form-control me-2" name="keyword" type="text" placeholder="依標題搜尋" value="{{ keyword }}">
       <button class="btn btn-outline-success" type="submit">Search</button>

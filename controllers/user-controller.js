@@ -1,4 +1,5 @@
 const userService = require('../services/user-service')
+const { getUser } = require('../helpers/auth-helper')
 
 const userController = {
   signUpPage: (req, res) => {
@@ -28,6 +29,11 @@ const userController = {
     userService.getUser(req, (err, data) => {
       err ? next(err) : res.render('user', { user: data.user, hostAccount: data.hostAccount })
     })
+  },
+  searchUser: (req, res) => {
+    const hostAccount = getUser(req).account
+    const { keyword } = req.query
+    keyword ? res.redirect(`/users/${keyword}`) : res.render('search-user', { hostAccount })
   }
 }
 
