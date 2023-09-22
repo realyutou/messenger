@@ -7,9 +7,12 @@ const { getUser } = require('../helpers/auth-helper')
 const userService = {
   signUp: async (req, cb) => {
     try {
+      const reservedWord = ['search']
       const { name, email, account, password, passwordCheck } = req.body
       if (!name || !email || !account || !password || !passwordCheck) throw new Error('所有欄位都是必填！')
+      if (reservedWord.includes(account)) throw new Error('無法使用該帳號！')
       if (name.length > 30) throw new Error('請設定 30 字以內的姓名！')
+      if (email.length > 50) throw new Error('請輸入正確的電子信箱！')
       if (account.length > 20) throw new Error('請設定 20 字以內的帳號！')
       if (password !== passwordCheck) throw new Error('密碼與確認密碼不符合！')
       if (password.length < 5 || password.length > 20) throw new Error('請設定 5 ~ 20 字的密碼！')
@@ -35,6 +38,7 @@ const userService = {
       const guestAccount = req.params.account
       const user = await User.findOne({
         where: { account: guestAccount },
+        attributes: { excludes: ['password'] },
         raw: true
       })
       if (!user) {

@@ -81,6 +81,7 @@ const adminServices = {
       if (keyword) {
         users = await User.findAndCountAll({
           where: { name: { [Op.substring]: keyword } },
+          attributes: { excludes: ['password'] },
           order: [['isAdmin', 'DESC'], ['email', 'ASC']],
           limit,
           offset,
@@ -88,6 +89,7 @@ const adminServices = {
         })
       } else {
         users = await User.findAndCountAll({
+          attributes: { excludes: ['password'] },
           order: [['isAdmin', 'DESC'], ['email', 'ASC']],
           limit,
           offset,

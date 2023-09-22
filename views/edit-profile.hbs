@@ -1,0 +1,59 @@
+<form action="/users/{{ user.account }}?_method=PUT" method="POST" enctype="multipart/form-data" class="mx-auto w-75">
+  <h5>{{> back}}</h5>
+  <h1 class="text-center mb-3">編輯個人資料</h1>
+  <div class="mb-3">
+    <label for="name" class="form-label">姓名</label>
+    <input type="text" class="form-control" id="name" name="name" placeholder="請輸入你的姓名，最多 30 字。" maxlength="30" value="{{ user.name }}">
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">電子信箱</label>
+    <input type="email" class="form-control" id="email" name="email" placeholder="請輸入電子信箱。" value="{{ user.email }}" maxlength="50">
+  </div>
+  <div class="mb-3">
+    <label for="account" class="form-label">帳號</label>
+    <input type="text" class="form-control" id="account" name="account" placeholder="請輸入帳號，最多 20 字。" maxlength="20" value="{{ user.account }}">
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">密碼</label>
+    <input type="password" class="form-control" id="password" name="password" placeholder="請輸入 5 ~ 20 字的密碼。" maxlength="20">
+  </div>
+  <div class="mb-3">
+    <label for="passwordCheck" class="form-label">密碼確認</label>
+    <input type="password" class="form-control" id="passwordCheck" name="passwordCheck" placeholder="請再次輸入密碼。" maxlength="20">
+  </div>
+  <div class="mb-3">
+    <label for="avatar" class="form-label">個人圖片</label>
+    <input class="form-control" type="file" id="avatar" name="avatar">
+  </div>
+  <div class="mb-3">
+    <label for="introduction" class="form-label">自我介紹</label>
+    <textarea class="form-control" id="introduction" name="introduction" rows="5" maxlength="200" placeholder="簡單的自我介紹，讓大家更認識你。（最多 200 字）">{{ user.introduction }}</textarea>
+  </div>
+  <div class="mb-3">
+    <label for="text" class="form-label">動態消息</label>
+    <input type="text" class="form-control" id="text" name="text" placeholder="在想什麼呢？（最多 30 字）" maxlength="30" value="{{ user.text }}">
+  </div>
+  <div class="mb-3">
+    <label for="birthday" class="form-label">生日</label>
+    <input type="date" class="form-control" id="birthday" name="birthday" value="{{date user.birthday}}" max="{{date user.createdAt}}">
+  </div>
+  <div class="mb-3">
+    <label for="gender" class="form-label">性別</label>
+    <select class="form-select" id="gender" name="gender">
+      <option {{#ifCond user.gender ''}}selected{{/ifCond}}>請選擇</option>
+      <option value="男" {{#ifCond user.gender '男'}}selected{{/ifCond}}>男</option>
+      <option value="女" {{#ifCond user.gender '女'}}selected{{/ifCond}}>女</option>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label for="job" class="form-label">職業</label>
+    <input type="text" class="form-control" id="job" name="job" placeholder="請輸入你的職業。" maxlength="50" value="{{ user.job }}">
+  </div>
+  <div class="mb-3">
+    <label for="location" class="form-label">現居地</label>
+    <input type="text" class="form-control" id="location" name="location" placeholder="請輸入你的現居地。" maxlength="50" value="{{ user.location }}">
+  </div>
+  <div class="d-grid mb-3">
+    <button type="submit" class="btn btn-primary" onclick="return confirm('送出前請確定內容無誤，確定要送出嗎？')">送出</button>
+  </div>
+</form>
