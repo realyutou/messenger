@@ -31,7 +31,7 @@
   </div>
   <div class="mb-3">
     <label for="text" class="form-label">動態消息</label>
-    <input type="text" class="form-control" id="text" name="text" placeholder="在想什麼呢？（最多 30 字）" maxlength="30" value="{{ user.text }}">
+    <input type="text" class="form-control" id="text" name="text" placeholder="在想什麼呢？（最多 100 字）" maxlength="100" value="{{ user.text }}">
   </div>
   <div class="mb-3">
     <label for="birthday" class="form-label">生日</label>
@@ -40,7 +40,7 @@
   <div class="mb-3">
     <label for="gender" class="form-label">性別</label>
     <select class="form-select" id="gender" name="gender">
-      <option {{#ifCond user.gender ''}}selected{{/ifCond}}>請選擇</option>
+      <option {{#ifCond user.gender null}}selected{{/ifCond}} value=" ">請選擇</option>
       <option value="男" {{#ifCond user.gender '男'}}selected{{/ifCond}}>男</option>
       <option value="女" {{#ifCond user.gender '女'}}selected{{/ifCond}}>女</option>
     </select>

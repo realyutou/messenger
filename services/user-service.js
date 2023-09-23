@@ -3,24 +3,20 @@ const bcrypt = require('bcryptjs')
 
 const { User } = require('../models')
 const { getUser } = require('../helpers/auth-helper')
+const { imgurFileHandler } = require('../helpers/file-helper')
 
 const userService = {
   signUp: async (req, cb) => {
     try {
-      const reservedWord = ['search']
       const { name, email, account, password, passwordCheck } = req.body
       if (!name || !email || !account || !password || !passwordCheck) throw new Error('所有欄位都是必填！')
-      if (reservedWord.includes(account)) throw new Error('無法使用該帳號！')
-      if (name.length > 30) throw new Error('請設定 30 字以內的姓名！')
-      if (email.length > 50) throw new Error('請輸入正確的電子信箱！')
-      if (account.length > 20) throw new Error('請設定 20 字以內的帳號！')
-      if (password !== passwordCheck) throw new Error('密碼與確認密碼不符合！')
-      if (password.length < 5 || password.length > 20) throw new Error('請設定 5 ~ 20 字的密碼！')
-      const [userA, userB] = await Promise.all([User.findOne({ where: { email } }), User.findOne({ where: { account } })])
-      if (userA) throw new Error('電子郵件已被使用！')
-      if (userB) throw new Error('帳號已被使用！')
-
-      const hash = await bcrypt.hash(password, 10)
+      const [userA, userB, hash] = await Promise.all([
+        User.findOne({ where: { email } }),
+        User.findOne({ where: { account } }),
+        bcrypt.hash(password, 10)
+      ])
+      if (userA) throw new Error('該電子信箱已被使用！')
+      if (userB) throw new Error('該帳號已被使用！')
       const newUser = await User.create({
         name,
         email,
@@ -47,6 +43,44 @@ const userService = {
         throw err
       }
       return cb(null, { user, hostAccount: host.account })
+    } catch (err) {
+      return cb(err)
+    }
+  },
+  putUser: async (req, cb) => {
+    try {
+      const host = getUser(req)
+      if (host.account !== req.params.account) {
+        const err = new Error('不能編輯其他人的資料！')
+        err.status = 403
+        throw err
+      }
+      const { name, email, account, password, introduction, text, birthday, gender, job, location } = req.body
+      const avatar = req.file ? await imgurFileHandler(req.file) : null
+      const hash = password ? await bcrypt.hash(password, 10) : null
+      if (account !== host.account) {
+        const user = await User.findOne({ where: { account } })
+        if (user) throw new Error('該帳號已被使用！')
+      }
+      if (email !== host.email) {
+        const user = await User.findOne({ where: { email } })
+        if (user) throw new Error('該電子信箱已被使用！')
+      }
+      const user = await User.findByPk(host.id)
+      const updatedUser = await user.update({
+        name: name || user.name,
+        email: email || user.email,
+        account: account || user.account,
+        password: hash || user.password,
+        introduction: introduction || user.introduction,
+        text: text || user.text,
+        birthday: birthday || user.birthday,
+        gender: gender || user.gender,
+        job: job || user.job,
+        location: location || user.location,
+        avatar: avatar || user.avatar
+      })
+      return cb(null, { user: updatedUser.toJSON() })
     } catch (err) {
       return cb(err)
     }

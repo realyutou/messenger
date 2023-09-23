@@ -8,6 +8,7 @@ const users = require('./modules/users')
 const userController = require('../controllers/user-controller')
 const { generalErrorHandler } = require('../middleware/error-handler')
 const { authenticatedUser, authenticatedAdmin } = require('../middleware/auth')
+const validator = require('../middleware/validator')
 
 const router = express.Router()
 
@@ -19,7 +20,7 @@ router.use('/users', authenticatedUser, users)
 router.get('/signup', userController.signUpPage)
 
 // 送出註冊表單
-router.post('/signup', userController.signUp)
+router.post('/signup', validator.userprofile, userController.signUp)
 
 // 登入畫面
 router.get('/signin', userController.signInPage)

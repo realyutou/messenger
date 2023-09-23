@@ -15,3 +15,7 @@ node_modules
 
 # dotenv
 .env
+
+# 上傳照片的資料夾
+temp/
+upload/

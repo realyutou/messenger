@@ -46,6 +46,13 @@ const userController = {
     userService.getUser(req, (err, data) => {
       err ? next(err) : res.render('edit-profile', { user: data.user })
     })
+  },
+  putUser: (req, res, next) => {
+    userService.putUser(req, (err, data) => {
+      if (err) return next(err)
+      req.flash('success_msg', '成功更新個人資料！')
+      return res.redirect(`/users/${data.user.account}`)
+    })
   }
 }
 

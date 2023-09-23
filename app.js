@@ -1,4 +1,7 @@
 // Include packages and define related variables
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const express = require('express')
 const { engine } = require('express-handlebars')
 const flash = require('connect-flash')
@@ -10,7 +13,7 @@ const routes = require('./routes')
 const { getUser } = require('./helpers/auth-helper')
 const handlebarsHelper = require('./helpers/handlebars-helper')
 
-const port = 3000
+const port = process.env.PORT || 3000
 const app = express()
 const sessionSecret = 'secret'
 
