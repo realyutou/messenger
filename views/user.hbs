@@ -1,5 +1,9 @@
 <div class="row">
-  {{> left-sidebar route='users'}}
+  {{#ifCond user.account hostAccount}}
+    {{> left-sidebar route='users'}}
+  {{else}}
+    {{> left-sidebar route='search'}}
+  {{/ifCond}}
   <div class="col-sm-10">
     <div class="card mb-3">
       <h5 class="mt-3 ms-3">{{> back}}</h5>

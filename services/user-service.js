@@ -34,7 +34,7 @@ const userService = {
       const guestAccount = req.params.account
       const user = await User.findOne({
         where: { account: guestAccount },
-        attributes: { excludes: ['password'] },
+        attributes: { exclude: ['password'] },
         raw: true
       })
       if (!user) {

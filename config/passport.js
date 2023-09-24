@@ -2,6 +2,7 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const bcrypt = require('bcryptjs')
+const Sequelize = require('sequelize')
 
 const { User } = require('../models')
 
@@ -30,10 +31,13 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser(async (id, cb) => {
   try {
     const user = await User.findByPk(id, {
-      attributes: { excludes: ['password'] },
-      raw: true
+      attributes: {
+        exclude: ['password'],
+        include: [[Sequelize.literal('(SELECT COUNT(*) FROM `Directories` WHERE `Directories`.`host_id` = `User`.`id`)'), 'friendsCount']]
+      },
+      include: [{ model: User, as: 'Friends', attributes: { exclude: ['password'] } }]
     })
-    return cb(null, user)
+    return cb(null, user.toJSON())
   } catch (err) {
     return cb(err)
   }
