@@ -13,6 +13,7 @@ const directoryService = {
       const page = Number(req.query.page) || 1
       const offset = getOffset(limit, page)
       const keyword = req.query.keyword || ''
+      if (keyword.length > 30) throw new Error('姓名最多為 30 字！')
       let data
       if (keyword) {
         const users = await User.findAll({
@@ -70,7 +71,7 @@ const directoryService = {
         Directory.findOne({ where: { hostId, guestId } })
       ])
       if (!user) {
-        const err = new Error('該使用者不存在')
+        const err = new Error('該使用者不存在！')
         err.status = 404
         throw err
       }
@@ -80,6 +81,27 @@ const directoryService = {
         guestId
       })
       return cb(null, { directory: newDirectory, user })
+    } catch (err) {
+      return cb(err)
+    }
+  },
+  removeFriend: async (req, cb) => {
+    try {
+      const hostId = getUser(req).id
+      const guestId = Number(req.params.guestId)
+      if (hostId === guestId) throw new Error('')
+      const [user, directory] = await Promise.all([
+        User.findByPk(guestId),
+        Directory.findOne({ where: { hostId, guestId } })
+      ])
+      if (!user) {
+        const err = new Error('該使用者不存在！')
+        err.status = 404
+        throw err
+      }
+      if (!directory) throw new Error('該使用者非好友！')
+      const deletedDirectory = await directory.destroy()
+      return cb(null, { directory: deletedDirectory, user })
     } catch (err) {
       return cb(err)
     }

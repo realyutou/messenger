@@ -27,7 +27,6 @@ const userController = {
   },
   getUser: (req, res, next) => {
     userService.getUser(req, (err, data) => {
-      console.log(data.user)
       err ? next(err) : res.render('user', { user: data.user })
     })
   },
@@ -43,9 +42,7 @@ const userController = {
       err.status = 403
       return next(err)
     }
-    userService.getUser(req, (err, data) => {
-      err ? next(err) : res.render('edit-profile', { user: data.user })
-    })
+    return res.render('edit-profile')
   },
   putUser: (req, res, next) => {
     userService.putUser(req, (err, data) => {

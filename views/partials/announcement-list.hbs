@@ -4,7 +4,7 @@
       <div class="d-flex align-items-center">
         <a href="/announcements/{{ this.id }}" class="list-group-item list-group-item-action">【{{date this.createdAt}}】{{ this.title }}</a>
         {{#ifCond ../route 'admin'}}
-          {{#if ../user.isAdmin}}
+          {{#if ../host.isAdmin}}
             <a href="/admin/announcements/{{ this.id }}/edit" class="btn btn-success mx-1"><i class="fa-solid fa-pen"
                 style="color: #ffffff;"></i></a>
             <form action="/admin/announcements/{{ this.id }}?_method=DELETE" method="POST">

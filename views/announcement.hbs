@@ -6,7 +6,7 @@
         <li class="list-group-item">
           <blockquote class="blockquote mb-0">
             <h1 class="card-title mb-4">
-              {{#if announcement.User.isAdmin}}<a href="/admin/announcements/{{ announcement.id }}/edit" class="btn btn-success mx-1"><i class="fa-solid fa-pen" style="color: #ffffff;"></i></a>{{/if}}
+              {{#if host.isAdmin}}<a href="/admin/announcements/{{ announcement.id }}/edit" class="btn btn-success mx-1"><i class="fa-solid fa-pen" style="color: #ffffff;"></i></a>{{/if}}
               {{ announcement.title }}
             </h1>
             <footer class="blockquote-footer text-end">{{date announcement.createdAt}} 由 {{ announcement.User.name }} 發布</footer>

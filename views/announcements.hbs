@@ -7,7 +7,7 @@
       </a>
     </div>
     <form action="/announcements" class="d-flex mb-3">
-      <input class="form-control me-2" name="keyword" type="text" placeholder="依標題搜尋" value="{{ keyword }}">
+      <input class="form-control me-2" name="keyword" type="text" placeholder="依標題搜尋" maxlength="100" value="{{ keyword }}">
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
     {{> announcement-list}}

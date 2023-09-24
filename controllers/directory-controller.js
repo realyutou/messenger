@@ -19,6 +19,13 @@ const directoryController = {
       req.flash('success_msg', `成功添加 ${data.user.name} 至通訊錄！`)
       return res.redirect(`/users/${data.user.account}`)
     })
+  },
+  removeFriend: (req, res, next) => {
+    directoryService.removeFriend(req, (err, data) => {
+      if (err) return next(err)
+      req.flash('success_msg', `成功將 ${data.user.name} 移出通訊錄！`)
+      return res.redirect('/directories')
+    })
   }
 }
 

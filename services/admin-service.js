@@ -10,6 +10,8 @@ const adminServices = {
       const userId = getUser(req)?.id
       const { title, content } = req.body
       if (!title || !content) throw new Error('所有欄位都是必填！')
+      if (title.length > 100) throw new Error('標題最多為 100 字！')
+      if (content.length > 1000) throw new Error('公告內容最多為 1000 字！')
       const newAnnouncement = await Announcement.create({
         title,
         content,
@@ -39,6 +41,8 @@ const adminServices = {
       const announcementId = req.params.id
       const userId = getUser(req)?.id
       const { title, content } = req.body
+      if (!title || !content) throw new Error('所有欄位都是必填！')
+      if (title.length > 100) throw new Error('標題最多為 100 字！')
       const announcement = await Announcement.findByPk(announcementId)
       if (!announcement) {
         const err = new Error('該公告不存在，請重新確認！')
@@ -77,6 +81,7 @@ const adminServices = {
       const page = Number(req.query.page) || 1
       const offset = getOffset(limit, page)
       const { keyword } = req.query || ''
+      if (keyword.length > 30) throw new Error('姓名最多為 30 字！')
       let users
       if (keyword) {
         users = await User.findAndCountAll({

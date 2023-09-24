@@ -11,6 +11,7 @@ const announcementService = {
       const limit = DEFAULT_LIMIT
       const offset = getOffset(limit, page)
       const { keyword } = req.query || ''
+      if (keyword.length > 100) throw new Error('標題最多為 100 字！')
       let announcements
       if (keyword) {
         announcements = await Announcement.findAndCountAll({
