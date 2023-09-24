@@ -5,6 +5,7 @@ const passport = require('../config/passport')
 const admin = require('./modules/admin')
 const announcements = require('./modules/announcements')
 const users = require('./modules/users')
+const directories = require('./modules/directories')
 const userController = require('../controllers/user-controller')
 const { generalErrorHandler } = require('../middleware/error-handler')
 const { authenticatedUser, authenticatedAdmin } = require('../middleware/auth')
@@ -15,6 +16,7 @@ const router = express.Router()
 router.use('/admin', authenticatedAdmin, admin)
 router.use('/announcements', authenticatedUser, announcements)
 router.use('/users', authenticatedUser, users)
+router.use('/directories', authenticatedUser, directories)
 
 // 註冊表單頁面
 router.get('/signup', userController.signUpPage)
@@ -32,9 +34,7 @@ router.post('/signin', passport.authenticate('local', { failureRedirect: '/signi
 router.get('/logout', userController.logout)
 
 // Homepage
-router.get('/', authenticatedUser, (req, res) => {
-  res.render('main')
-})
+router.get('/', authenticatedUser, (req, res) => { res.redirect('/directories') })
 
 // 錯誤處理
 router.use('/', generalErrorHandler)

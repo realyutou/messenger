@@ -1,0 +1,76 @@
+<div class="row">
+  {{> left-sidebar route='directories'}}
+  <div class="col-sm-10">
+    <div class="list-group mb-3">
+      <div class="d-flex align-items-center mb-1">
+        <a href="/users/{{ host.account }}" class="me-1"><img src="{{ host.avatar }}" class="rounded mx-auto d-block" style="height: 80px; width: 80px"></a>
+        <a href="#" class="list-group-item list-group-item-action">
+          {{#if host.text}}
+            <div class="my-1">
+              {{ host.name }}
+              <br>
+              <small class="text-body-secondary">{{ host.text }}</small>
+            </div>
+          {{else}}
+            <div class="my-3">{{ host.name }}</div>
+          {{/if}}
+        </a>
+      </div>
+    </div>
+    <form action="/directories" class="d-flex mb-3">
+      <input class="form-control me-2" name="keyword" type="text" placeholder="依姓名搜尋" value="{{ keyword }}">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+    <div class="list-group mb-3">
+      {{#if directories}}
+        <p>共 {{ count }} 位好友</p>
+        {{#each directories}}
+          <div class="d-flex align-items-center mb-1">
+            <a href="/users/{{ this.Friends.account }}" class="me-1"><img src="{{ this.Friends.avatar }}" class="rounded mx-auto d-block" style="height: 80px; width: 80px"></a>
+            <a href="#" class="list-group-item list-group-item-action h-100">
+              {{#if this.Friends.text}}
+                <div class="my-1">
+                  {{ this.Friends.name }}
+                  <br>
+                  <small class="text-body-secondary">{{ this.Friends.text }}</small>
+                </div>
+              {{else}}
+                <div class="my-3">{{ this.Friends.name }}</div>
+              {{/if}}
+            </a>
+            <form action="/directories/{{ this.id }}?_method=DELETE" method="POST" class="mx-1">
+              <button class="btn btn-danger" onclick="return confirm(`確定要將 {{ this.Friends.name }} 由通訊錄中移除嗎？`)" type="submit">
+                <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
+              </button>
+            </form>
+          </div>
+        {{/each}}
+      {{else}}
+        <h1 class="text-center">暫無好友，<a href="/users/search">新增好友</a></h1>
+      {{/if}}
+    </div>
+    <nav class="mt-3" aria-label="page navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item {{#ifCond pagination.currentPage 1}}disabled{{/ifCond}}">
+          <a class="page-link" href="/directories?page={{ pagination.prev }}&keyword={{ keyword }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        {{#each pagination.pages}}
+        {{#ifCond this ../pagination.currentPage}}
+        <li class="page-item active"><a class="page-link" href="#">{{ this }}</a></li>
+        {{else}}
+        <li class="page-item">
+          <a class="page-link" href="/directories?page={{ this }}&keyword={{ ../keyword }}">{{ this }}</a>
+        </li>
+        {{/ifCond}}
+        {{/each}}
+        <li class="page-item {{#ifCond pagination.currentPage pagination.totalPage}}disabled{{/ifCond}}">
+          <a class="page-link" href="/directories?page={{ pagination.next }}&keyword={{ keyword }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
