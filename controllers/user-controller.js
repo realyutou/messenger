@@ -27,13 +27,13 @@ const userController = {
   },
   getUser: (req, res, next) => {
     userService.getUser(req, (err, data) => {
-      err ? next(err) : res.render('user', { user: data.user, hostAccount: data.hostAccount })
+      console.log(data.user)
+      err ? next(err) : res.render('user', { user: data.user })
     })
   },
   searchUser: (req, res) => {
-    const hostAccount = getUser(req).account
     const { keyword } = req.query
-    keyword ? res.redirect(`/users/${keyword}`) : res.render('search-user', { hostAccount })
+    keyword ? res.redirect(`/users/${keyword}`) : res.render('search-user')
   },
   editUser: (req, res, next) => {
     const hostAccount = getUser(req).account

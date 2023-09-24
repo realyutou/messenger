@@ -24,10 +24,8 @@ const directoryService = {
           const usersId = Array.from(users, (user) => user.id)
           data = await Directory.findAndCountAll({
             where: {
-              [Op.and]: [
-                { hostId: host.id },
-                { guestId: { [Op.or]: usersId } }
-              ]
+              hostId: host.id,
+              guestId: { [Op.or]: usersId }
             },
             include: { model: User, as: 'Friends', attributes: { exclude: ['password'] } },
             limit,
@@ -55,10 +53,33 @@ const directoryService = {
       return cb(null, {
         directories,
         pagination: getPagination(limit, page, data.count),
-        host,
         keyword,
         count: data.count
       })
+    } catch (err) {
+      return cb(err)
+    }
+  },
+  addFriend: async (req, cb) => {
+    try {
+      const hostId = getUser(req).id
+      const guestId = Number(req.params.guestId)
+      if (hostId === guestId) throw new Error('無法添加自己至通訊錄！')
+      const [user, directory] = await Promise.all([
+        User.findByPk(guestId),
+        Directory.findOne({ where: { hostId, guestId } })
+      ])
+      if (!user) {
+        const err = new Error('該使用者不存在')
+        err.status = 404
+        throw err
+      }
+      if (directory) throw new Error('該使用者已是好友！')
+      const newDirectory = await Directory.create({
+        hostId,
+        guestId
+      })
+      return cb(null, { directory: newDirectory, user })
     } catch (err) {
       return cb(err)
     }

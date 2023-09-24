@@ -38,7 +38,7 @@
                 <div class="my-3">{{ this.Friends.name }}</div>
               {{/if}}
             </a>
-            <form action="/directories/{{ this.id }}?_method=DELETE" method="POST" class="mx-1">
+            <form action="/directories/{{ this.Friends.id }}?_method=DELETE" method="POST" class="mx-1">
               <button class="btn btn-danger" onclick="return confirm(`確定要將 {{ this.Friends.name }} 由通訊錄中移除嗎？`)" type="submit">
                 <i class="fa-solid fa-trash" style="color: #ffffff;"></i>
               </button>

@@ -6,13 +6,18 @@ const directoryController = {
       err
         ? next(err)
         : res.render('directory', {
-          host: data.host,
-          hostAccount: data.host.account,
           directories: data.directories,
           pagination: data.pagination,
           keyword: data.keyword,
           count: data.count
         })
+    })
+  },
+  addFriend: (req, res, next) => {
+    directoryService.addFriend(req, (err, data) => {
+      if (err) return next(err)
+      req.flash('success_msg', `成功添加 ${data.user.name} 至通訊錄！`)
+      return res.redirect(`/users/${data.user.account}`)
     })
   }
 }

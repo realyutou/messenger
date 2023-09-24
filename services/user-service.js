@@ -42,7 +42,8 @@ const userService = {
         err.status = 404
         throw err
       }
-      return cb(null, { user, hostAccount: host.account })
+      user.isAdded = host.Friends.some(f => f.id === user.id)
+      return cb(null, { user })
     } catch (err) {
       return cb(err)
     }
