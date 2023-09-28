@@ -27,7 +27,7 @@
         {{#each directories}}
           <div class="d-flex align-items-center mb-1">
             <a href="/users/{{ this.Friends.account }}" class="me-1"><img src="{{ this.Friends.avatar }}" class="rounded mx-auto d-block" style="height: 80px; width: 80px"></a>
-            <a href="#" class="list-group-item list-group-item-action h-100">
+            <a href="/chatroom/{{ this.Friends.id }}" class="list-group-item list-group-item-action h-100"  target="_blank">
               {{#if this.Friends.text}}
                 <div class="my-1">
                   {{ this.Friends.name }}

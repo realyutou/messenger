@@ -13,7 +13,7 @@ const directoryService = {
       const page = Number(req.query.page) || 1
       const offset = getOffset(limit, page)
       const keyword = req.query.keyword || ''
-      if (keyword.length > 30) throw new Error('姓名最多為 30 字！')
+      if (keyword?.length > 30) throw new Error('姓名最多為 30 字！')
       let data
       if (keyword) {
         const users = await User.findAll({
