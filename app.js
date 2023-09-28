@@ -13,7 +13,6 @@ const passport = require('./config/passport')
 const routes = require('./routes')
 const { getUser } = require('./helpers/auth-helper')
 const handlebarsHelper = require('./helpers/handlebars-helper')
-// const messageHelper = require('./helpers/message-helper')
 
 const port = process.env.PORT || 3000
 const app = express()
