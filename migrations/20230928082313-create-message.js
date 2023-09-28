@@ -18,6 +18,9 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER
       },
+      room_id: {
+        type: Sequelize.STRING
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE
