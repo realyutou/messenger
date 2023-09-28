@@ -1,0 +1,47 @@
+<div class="row">
+  {{> left-sidebar route='chat'}}
+  
+  <div class="col-sm-10">
+    <h1 class="text-center"><i class="fa-solid fa-house"></i> 大廳</h1>
+    <div id="messages" class="card my-2 overflow-auto" style="max-height: 450px;"></div>
+    
+    <form id="chat-form" class="d-flex">
+      <input id="msg" type="text" placeholder="請輸入你的訊息" class="form-control me-1"><button class="btn btn-primary"><i class="fa-regular fa-paper-plane"></i></button>
+    </form>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io()
+  const chatForm = document.getElementById('chat-form')
+  const chatMsgs = document.getElementById('messages')
+
+  // Receive messages from server
+  socket.on('message', msg => {
+    outputMsg(msg)
+
+    chatMsgs.scrollTop = chatMsgs.scrollHeight
+  })
+
+  // When a user send a message
+  chatForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    const msg = e.target.elements.msg.value
+    if (msg) {
+      socket.emit('chatMsg', msg)
+    }
+    e.target.elements.msg.value = ''
+    e.target.elements.msg.focus()
+  })
+
+  function outputMsg(msg) {
+    const newMsg = document.createElement('div')
+    newMsg.classList.add('card-body')
+    newMsg.innerHTML = `<a href="users/${msg.host.account}" class="btn btn-outline-success">
+      <img src="${msg.host.avatar}" class="rounded" style="height: 50px; width: 50px;"> ${msg.host.name}
+    </a>：${msg.text}, <small class="text-body-secondary">${msg.time}</small>`
+    document.getElementById('messages').appendChild(newMsg)
+  }
+</script>

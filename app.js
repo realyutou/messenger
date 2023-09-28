@@ -7,15 +7,22 @@ const { engine } = require('express-handlebars')
 const flash = require('connect-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
+const { Server } = require('socket.io')
 
 const passport = require('./config/passport')
 const routes = require('./routes')
 const { getUser } = require('./helpers/auth-helper')
 const handlebarsHelper = require('./helpers/handlebars-helper')
+// const messageHelper = require('./helpers/message-helper')
 
 const port = process.env.PORT || 3000
 const app = express()
+const server = require('http').createServer(app)
 const sessionSecret = 'secret'
+const io = new Server(server)
+
+// 將 io 傳入 app 讓後面進入路由、controller時可以用 req.app.io
+app.io = io
 
 // Set express-handlebars
 app.engine('.hbs', engine({ extname: '.hbs', helpers: handlebarsHelper }))
@@ -49,6 +56,6 @@ app.use((req, res, next) => {
 app.use(routes)
 
 // Start and listen the server
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Express is running on http://localhost${port}`)
 })
