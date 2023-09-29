@@ -8,6 +8,7 @@ const users = require('./modules/users')
 const directories = require('./modules/directories')
 const chat = require('./modules/chatroom')
 const userController = require('../controllers/user-controller')
+const directoryController = require('../controllers/directory-controller')
 const { generalErrorHandler } = require('../middleware/error-handler')
 const { authenticatedUser, authenticatedAdmin } = require('../middleware/auth')
 const validator = require('../middleware/validator')
@@ -36,7 +37,7 @@ router.post('/signin', passport.authenticate('local', { failureRedirect: '/signi
 router.get('/logout', userController.logout)
 
 // Homepage
-router.get('/', authenticatedUser, (req, res) => { res.redirect('/directories') })
+router.get('/', authenticatedUser, directoryController.getDirectory)
 
 // 錯誤處理
 router.use('/', generalErrorHandler)

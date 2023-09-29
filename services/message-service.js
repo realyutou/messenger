@@ -53,7 +53,7 @@ const messageService = {
           })
         })
       })
-      return cb(null, { messages })
+      return cb(null, { messages, roomId })
     } catch (err) {
       return cb(err)
     }

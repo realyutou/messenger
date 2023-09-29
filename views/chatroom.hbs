@@ -2,7 +2,9 @@
   {{> left-sidebar route='chat'}}
   
   <div class="col-sm-10">
-    <h1 class="text-center"><i class="fa-solid fa-house"></i> 聊天室</h1>
+    <h1 class="text-center">
+      <i class="fa-solid fa-house"></i> {{#ifCond roomId 'public'}} 大廳{{else}} 收件匣{{/ifCond}}
+    </h1>
     <div id="messages" class="card my-2 overflow-auto" style="max-height: 450px;">
       {{#each messages}}
       <div class="card-body">

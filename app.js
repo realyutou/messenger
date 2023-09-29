@@ -17,7 +17,7 @@ const handlebarsHelper = require('./helpers/handlebars-helper')
 const port = process.env.PORT || 3000
 const app = express()
 const server = require('http').createServer(app)
-const sessionSecret = 'secret'
+const sessionSecret = process.env.SESSION_SECRET
 const io = new Server(server)
 
 // 將 io 傳入 app 讓後面進入路由、controller時可以用 req.app.io
@@ -56,5 +56,5 @@ app.use(routes)
 
 // Start and listen the server
 server.listen(port, () => {
-  console.log(`Express is running on http://localhost${port}`)
+  console.log(`Server is running on http://localhost${port}`)
 })
